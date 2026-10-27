@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CSE Section 2 Schedule</title>
+<style>
+:root { color-scheme: light; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+<style>
+/* Layout concept: a printed university timetable turned into a board. Days run down, periods run across,
+   the lunch and prayer break is one tall column, and every class is a tinted tile you pick up and put down. */
+:root {
+  --font-display: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+
+  --bg: #eef2f0;
+  --surface: #ffffff;
+  --slot: #f8faf9;
+  --head: #e1e9e5;
+  --ink: #13201b;
+  --muted: #55655e;
+  --line: #c6d2cc;
+  --accent: #0e6b50;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(14, 107, 80, 0.13);
+  --accent-strong: rgba(14, 107, 80, 0.26);
+  --danger: #c23a2b;
+  --shadow: rgba(10, 30, 20, 0.2);
+
+  --hum-bg: #f5e5d0;  --hum-fg: #44290e;  --hum-ln: #d9b78a;
+  --phy-bg: #daeaf7;  --phy-fg: #0e2d48;  --phy-ln: #97bfdf;
+  --cse-bg: #dcf1e3;  --cse-fg: #0f3520;  --cse-ln: #9bcfab;
+  --math-bg: #eedff3; --math-fg: #3a1545; --math-ln: #c5a0d1;
+  --prog-bg: #f5efc6; --prog-fg: #3d3505; --prog-ln: #d8cc78;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1514; --surface: #151d1b; --slot: #121917; --head: #1b2623;
+    --ink: #e5eee9; --muted: #93a59d; --line: #2b3935;
+    --accent: #4cc99c; --accent-ink: #052217;
+    --accent-soft: rgba(76, 201, 156, 0.14); --accent-strong: rgba(76, 201, 156, 0.28);
+    --danger: #ff7b6b; --shadow: rgba(0, 0, 0, 0.5);
+    --hum-bg: #3a2c1c;  --hum-fg: #f1dcc0;  --hum-ln: #6b5133;
+    --phy-bg: #1c3347;  --phy-fg: #cfe4f6;  --phy-ln: #35597a;
+    --cse-bg: #1c3a28;  --cse-fg: #cdeed7;  --cse-ln: #35684a;
+    --math-bg: #35213d; --math-fg: #ecd5f2; --math-ln: #62407a;
+    --prog-bg: #3a3512; --prog-fg: #efe6a8; --prog-ln: #6f651f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1514; --surface: #151d1b; --slot: #121917; --head: #1b2623;
+  --ink: #e5eee9; --muted: #93a59d; --line: #2b3935;
+  --accent: #4cc99c; --accent-ink: #052217;
+  --accent-soft: rgba(76, 201, 156, 0.14); --accent-strong: rgba(76, 201, 156, 0.28);
+  --danger: #ff7b6b; --shadow: rgba(0, 0, 0, 0.5);
+  --hum-bg: #3a2c1c;  --hum-fg: #f1dcc0;  --hum-ln: #6b5133;
+  --phy-bg: #1c3347;  --phy-fg: #cfe4f6;  --phy-ln: #35597a;
+  --cse-bg: #1c3a28;  --cse-fg: #cdeed7;  --cse-ln: #35684a;
+  --math-bg: #35213d; --math-fg: #ecd5f2; --math-ln: #62407a;
+  --prog-bg: #3a3512; --prog-fg: #efe6a8; --prog-ln: #6f651f;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 14px/1.45 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 44px;
+}
+.page { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Masthead: the three lines of the original, left aligned */
+.mast { display: flex; flex-direction: column; gap: 14px; }
+.inst h1 { margin: 0; font: 600 clamp(22px, 4.6vw, 32px)/1.15 var(--font-display); text-wrap: balance; }
+.inst .oic { margin: 2px 0 0; font: 500 clamp(16px, 3vw, 20px)/1.25 var(--font-display); }
+.inst .dept { margin: 2px 0 0; font: 600 clamp(15px, 2.8vw, 19px)/1.25 var(--font-display); color: var(--accent); }
+.sched { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 20px; border-top: 1px solid var(--line); padding-top: 12px; }
+.sched .sec { margin: 0; font: 500 clamp(17px, 3vw, 20px)/1.2 var(--font-display); }
+.sched .cls { margin: 0; font: 600 clamp(17px, 3vw, 20px)/1.2 var(--font-display); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1.5px; }
+
+/* Toolbar and status */
+.tools { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn {
+  font: 500 13px/1 var(--font-body); min-height: 38px; padding: 0 14px; border-radius: 6px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer;
+}
+.btn:hover:not(:disabled) { border-color: var(--accent); }
+.btn:disabled { opacity: 0.45; cursor: default; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.status {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px;
+  min-height: 66px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+}
+.status .hint { margin: 0; color: var(--muted); max-width: 70ch; }
+.sel-info { min-width: 0; flex: 1 1 280px; }
+.si-title { font: 600 16px/1.25 var(--font-display); overflow-wrap: anywhere; }
+.si-meta { font: 12px/1.4 var(--font-mono); color: var(--muted); overflow-wrap: anywhere; }
+.acts { display: flex; flex-wrap: wrap; gap: 8px; }
+#fallback { width: 100%; min-height: 120px; font: 12px/1.4 var(--font-mono); background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 8px; }
+.scroll-note { display: none; margin: -6px 0 0; font-size: 12px; color: var(--muted); }
+
+/* Board */
+.board { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--line); }
+.grid {
+  display: grid; gap: 1px; background: var(--line); min-width: 940px;
+  grid-template-columns: 64px repeat(4, minmax(132px, 1fr)) 76px repeat(2, minmax(132px, 1fr));
+}
+.hd { background: var(--head); padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; justify-content: center; }
+.hd.corner { position: sticky; left: 0; z-index: 6; }
+.pn { font: 500 18px/1 var(--font-display); }
+.pt { font: 10.5px/1.2 var(--font-mono); color: var(--muted); }
+.hd.bh .bt { font: 500 11px/1.2 var(--font-body); }
+.day {
+  position: sticky; left: 0; z-index: 6; background: var(--head); display: flex; align-items: center;
+  padding: 0 8px 0 12px; font: 600 18px/1 var(--font-display);
+}
+.brk { background: var(--head); display: flex; align-items: center; justify-content: center; }
+.brk span { writing-mode: vertical-rl; transform: rotate(180deg); font: 500 22px/1 var(--font-display); letter-spacing: 0.04em; color: var(--muted); white-space: nowrap; }
+
+.slot { position: relative; z-index: 0; background: var(--slot); min-width: 0; }
+.slot.x::after, .card.struck::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(to top right, transparent calc(50% - 1.5px), var(--danger) calc(50% - 1.5px), var(--danger) calc(50% + 1.5px), transparent calc(50% + 1.5px));
+}
+.slot.x::after { opacity: 0.8; }
+
+.card {
+  position: relative; z-index: 1; margin: 4px; padding: 7px 9px; border-radius: 6px; min-width: 0;
+  background: var(--cbg); color: var(--cfg); border: 1px solid var(--cln);
+  display: flex; flex-direction: column; justify-content: space-between; gap: 4px;
+  cursor: grab; user-select: none; -webkit-user-select: none; transition: opacity 0.15s;
+}
+.f-hum  { --cbg: var(--hum-bg);  --cfg: var(--hum-fg);  --cln: var(--hum-ln); }
+.f-phy  { --cbg: var(--phy-bg);  --cfg: var(--phy-fg);  --cln: var(--phy-ln); }
+.f-cse  { --cbg: var(--cse-bg);  --cfg: var(--cse-fg);  --cln: var(--cse-ln); }
+.f-math { --cbg: var(--math-bg); --cfg: var(--math-fg); --cln: var(--math-ln); }
+.f-prog { --cbg: var(--prog-bg); --cfg: var(--prog-fg); --cln: var(--prog-ln); }
+.card .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; font: 11px/1.3 var(--font-mono); }
+.card .top span { min-width: 0; overflow-wrap: anywhere; }
+.card .rm { text-align: right; }
+.card .nm { font: 600 17px/1.2 var(--font-display); text-wrap: balance; }
+.card .sb { font: 11px/1.3 var(--font-mono); min-height: 14px; }
+.card.struck { opacity: 0.62; }
+.card:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.card.sel { box-shadow: 0 0 0 2px var(--accent), 0 8px 18px var(--shadow); opacity: 1; }
+.moving .card:not(.sel) { opacity: 0.5; }
+
+/* While a class is picked up, every slot is lifted above the cards so it can be tapped or dropped on */
+.moving .slot { z-index: 5; }
+.moving .slot.here { z-index: 0; pointer-events: none; }
+.moving .slot.ok { background: var(--accent-soft); outline: 2px dashed var(--accent); outline-offset: -5px; cursor: pointer; }
+.moving .slot.ok:hover, .moving .slot.ok.over { background: var(--accent-strong); }
+.moving .slot.ok:focus-visible { outline: 3px solid var(--accent); }
+.moving .slot.no { cursor: not-allowed; background: repeating-linear-gradient(135deg, transparent 0 7px, var(--line) 7px 8px); }
+
+/* Teachers */
+.teachers h2 { margin: 0 0 8px; font: 500 18px/1.2 var(--font-display); }
+.tcols { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 6px 28px; }
+.tcols ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.tcols li { display: grid; grid-template-columns: 78px 1fr; gap: 8px; align-items: baseline; font-size: 14px; }
+.tcols .code { font: 500 12.5px/1.3 var(--font-mono); color: var(--muted); }
+.foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; font-size: 12px; color: var(--muted); }
+
+@media (max-width: 760px) { .scroll-note { display: block; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header class="mast">
+    <div class="inst">
+      <h1>Islamic University of Technology (IUT)</h1>
+      <p class="oic">Organisation of Islamic Cooperation</p>
+      <p class="dept">Department of Computer Science and Engineering</p>
+    </div>
+    <div class="sched">
+      <p class="sec">BSc CSE 1st-Section 2</p>
+      <p class="cls">Class Schedule</p>
+    </div>
+  </header>
+
+  <div class="tools">
+    <button class="btn" id="undo" type="button" disabled>Undo</button>
+    <button class="btn" id="reset" type="button">Reset to original</button>
+    <button class="btn primary" id="copy" type="button">Copy as text</button>
+  </div>
+  <textarea id="fallback" readonly hidden aria-label="Schedule as text"></textarea>
+
+  <div class="status" id="status" aria-live="polite">
+    <p class="hint" id="hint"></p>
+    <div class="sel-info" id="selInfo" hidden>
+      <div class="si-title" id="siTitle"></div>
+      <div class="si-meta" id="siMeta"></div>
+    </div>
+    <div class="acts" id="acts" hidden>
+      <button class="btn" id="btnX" type="button">Cross out</button>
+      <button class="btn" id="btnBack" type="button">Original spot</button>
+      <button class="btn primary" id="btnDone" type="button">Done</button>
+    </div>
+  </div>
+  <p class="scroll-note">Swipe the table sideways to see every period.</p>
+
+  <div class="board" id="board">
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <section class="teachers" aria-labelledby="th">
+    <h2 id="th">Teachers:</h2>
+    <div class="tcols" id="tcols"></div>
+  </section>
+
+  <div class="foot">
+    <span>Your moves are saved in this browser only.</span>
+    <span>aSc Timetables</span>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+  var COL = [0, 2, 3, 4, 5, 7, 8];
+  var ST = ['', '8:00', '9:15', '10:30', '11:45', '14:30', '15:45'];
+  var EN = ['', '9:15', '10:30', '11:45', '13:00', '15:45', '17:00'];
+  var HEAD = [null, '8:00 - 9:15', '9:15 - 10:30', '10:30 - 11:45', '11:45 - 13:00', '14:30 - 15:45', '15:45 - 17:00'];
+  var KEY = 'iut-cse-1st-sec2-board-v1';
+  var STRUCK_SLOTS = { '3-4': true }; // Thu, period 4 is crossed out in the original
+
+  var TEACHERS = [
+    ['AA', 'Ajwad Abrar Mostofa'],
+    ['AKH (PT)', 'Prof. Dr. A.K.M. Akther Hossain (PT)'],
+    ['AZR (PT)', 'Dr. Md. Azizar Rahman (PT)'],
+    ['DFS (NSc)', 'Dr. Fahmida Sharmin (NSc)'],
+    ['KH', 'Prof. Dr. Md. Kamrul Hasan'],
+    ['MH (PT)', 'Mozammal Hoque (PT)'],
+    ['MM', 'Dr. Md Moniruzzaman'],
+    ['MMH (PT)', 'Muhammad Mohsin (PT)'],
+    ['MTM (NSc)', 'Dr. Md. Tusher Mollah (Nsc)'],
+    ['RHJ', 'Reaz Hassan Joarder'],
+    ['SAZ', 'Samnun Azfar'],
+    ['SRR', 'Syed Rifat Raiyan'],
+    ['ZH (PT)', 'Zakir Hussain (PT)']
+  ];
+  var TMAP = {};
+  TEACHERS.forEach(function (t) { TMAP[t[0]] = t[1]; });
+
+  // day: 0 Mon .. 4 Fri. start: first period. span: periods taken.
+  var DATA = [
+    { id: 'mon-hum4142', fam: 'hum', name: 'Hum 4142 (100 mins)', day: 0, start: 1, span: 2, teacher: 'MMH (PT)', room: 'R-105 (AB3)', sub: 'Arabic' },
+    { id: 'mon-phy4142-2a', fam: 'phy', name: 'Phy 4142', day: 0, start: 3, span: 2, teacher: 'AZR (PT) / DFS (NSc)', room: 'L-Phy (AB1)', sub: '2A' },
+    { id: 'mon-phy4142-2b', fam: 'phy', name: 'Phy 4142', day: 0, start: 3, span: 2, teacher: 'AZR (PT) / DFS (NSc)', room: 'L-Phy (AB1)', sub: '2B' },
+    { id: 'mon-cse4105', fam: 'cse', name: 'CSE 4105', day: 0, start: 5, span: 1, teacher: 'KH', room: 'R-302', sub: '' },
+    { id: 'tue-phy4141', fam: 'phy', name: 'Phy 4141', day: 1, start: 2, span: 1, teacher: 'AKH (PT)', room: 'R-105 (AB3)', sub: '' },
+    { id: 'tue-cse4107', fam: 'cse', name: 'CSE 4107', day: 1, start: 4, span: 1, teacher: 'MM', room: 'R-304', sub: '' },
+    { id: 'tue-cse4105', fam: 'cse', name: 'CSE 4105', day: 1, start: 5, span: 1, teacher: 'KH', room: 'R-304', sub: '' },
+    { id: 'wed-hum4145', fam: 'hum', name: 'Hum 4145 (100 mins)', day: 2, start: 1, span: 2, teacher: 'MMH (PT)', room: 'R-106 (AB3)', sub: '' },
+    { id: 'wed-cse4108-2a', fam: 'cse', name: 'CSE 4108', day: 2, start: 3, span: 2, teacher: 'SRR / SAZ', room: 'L-1', sub: '2A' },
+    { id: 'wed-cse4108-2b', fam: 'cse', name: 'CSE 4108', day: 2, start: 3, span: 2, teacher: 'MM / RHJ', room: 'L-2', sub: '2B' },
+    { id: 'wed-prog', fam: 'prog', name: 'Programming Training', day: 2, start: 5, span: 2, teacher: 'C1S1/C1S2/SW1', room: 'R-301', sub: '' },
+    { id: 'wed-hum4144', fam: 'hum', name: 'Hum 4144 (100 mins)', day: 2, start: 5, span: 2, teacher: 'ZH (PT)', room: 'R-508', sub: 'English' },
+    { id: 'thu-math4141', fam: 'math', name: 'Math 4141 (100 mins)', day: 3, start: 1, span: 2, teacher: 'MTM (NSc)', room: 'R-105 (AB3)', sub: '' },
+    { id: 'thu-phy4141', fam: 'phy', name: 'Phy 4141', day: 3, start: 3, span: 1, teacher: 'AKH (PT)', room: 'R-105 (AB3)', sub: '' },
+    { id: 'thu-hum4147', fam: 'hum', name: 'Hum 4147', day: 3, start: 5, span: 1, teacher: 'MH (PT)', room: 'R-106 (AB3)', sub: '' },
+    { id: 'fri-hum4147', fam: 'hum', name: 'Hum 4147', day: 4, start: 1, span: 1, teacher: 'MH (PT)', room: 'R-205', sub: '' },
+    { id: 'fri-cse4107', fam: 'cse', name: 'CSE 4107', day: 4, start: 2, span: 1, teacher: 'MM', room: 'R-205', sub: '' },
+    { id: 'fri-math4141', fam: 'math', name: 'Math 4141 (100 mins)', day: 4, start: 3, span: 2, teacher: 'MTM (NSc)', room: 'R-205', sub: '' },
+    { id: 'fri-cse4104-2b', fam: 'cse', name: 'CSE 4104', day: 4, start: 5, span: 2, teacher: 'AA', room: 'L-6', sub: '2B' },
+    { id: 'fri-cse4104-2a', fam: 'cse', name: 'CSE 4104', day: 4, start: 5, span: 2, teacher: 'AA', room: 'L-6', sub: '2A', struck: true }
+  ];
+
+  var items = DATA.map(function (c, i) {
+    var o = {};
+    for (var k in c) o[k] = c[k];
+    o.struck = !!c.struck;
+    o.ord = i; o.oDay = c.day; o.oStart = c.start; o.oStruck = !!c.struck;
+    return o;
+  });
+  function byId(id) { for (var i = 0; i < items.length; i++) if (items[i].id === id) return items[i]; return null; }
+  function validStart(c, p) { return c.span === 1 ? (p >= 1 && p <= 6) : (p === 1 || p === 2 || p === 3 || p === 5); }
+
+  var grid = document.getElementById('grid');
+  var hintEl = document.getElementById('hint');
+  var selInfo = document.getElementById('selInfo');
+  var acts = document.getElementById('acts');
+  var siTitle = document.getElementById('siTitle');
+  var siMeta = document.getElementById('siMeta');
+  var btnX = document.getElementById('btnX');
+  var btnBack = document.getElementById('btnBack');
+  var btnUndo = document.getElementById('undo');
+  var DEFAULT_HINT = 'Tap a class to pick it up, then tap a dashed slot to put it there. On a computer you can also drag a class onto a slot.';
+  var hintText = DEFAULT_HINT;
+  var sel = null;
+  var history = [];
+  var focusId = null;
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (m) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]; }); }
+  function snap() { return items.map(function (c) { return { id: c.id, day: c.day, start: c.start, struck: c.struck }; }); }
+  function restore(arr) {
+    arr.forEach(function (r) { var c = byId(r.id); if (c) { c.day = r.day; c.start = r.start; c.struck = !!r.struck; } });
+  }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(snap())); } catch (e) {} }
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return;
+      JSON.parse(raw).forEach(function (r) {
+        var c = byId(r.id);
+        if (c && r.day >= 0 && r.day < 5 && validStart(c, r.start)) { c.day = r.day; c.start = r.start; c.struck = !!r.struck; }
+      });
+    } catch (e) {}
+  }
+  function pushHistory() { history.push(snap()); if (history.length > 60) history.shift(); btnUndo.disabled = false; }
+  function timeRange(c) { return ST[c.start] + ' - ' + EN[c.start + c.span - 1]; }
+  function teacherNames(c) {
+    return c.teacher.split(' / ').map(function (t) { return TMAP[t] || t; }).join(' / ');
+  }
+
+  function layout() {
+    var res = { rows: [], start: [], laneOf: {}, total: 0 };
+    for (var d = 0; d < 5; d++) {
+      var cs = items.filter(function (c) { return c.day === d; }).sort(function (a, b) { return a.start - b.start || a.ord - b.ord; });
+      var occ = [];
+      cs.forEach(function (c) {
+        for (var l = 0; ; l++) {
+          if (!occ[l]) occ[l] = {};
+          var free = true, p;
+          for (p = c.start; p < c.start + c.span; p++) { if (occ[l][p]) { free = false; break; } }
+          if (free) { for (p = c.start; p < c.start + c.span; p++) occ[l][p] = 1; res.laneOf[c.id] = l; break; }
+        }
+      });
+      var n = Math.max(1, occ.length);
+      res.start[d] = 2 + res.total; res.rows[d] = n; res.total += n;
+    }
+    return res;
+  }
+
+  function render() {
+    var L = layout(), h = '', p, d;
+    h += '<div class="hd corner" style="grid-column:1;grid-row:1"><span class="sr">Day</span></div>';
+    for (p = 1; p <= 6; p++) h += '<div class="hd" style="grid-column:' + COL[p] + ';grid-row:1"><span class="pn">' + p + '</span><span class="pt">' + HEAD[p] + '</span></div>';
+    h += '<div class="hd bh" style="grid-column:6;grid-row:1"><span class="bt">Lunch and Prayer Break</span><span class="pt">13:00 - 14:30</span></div>';
+    h += '<div class="brk" style="grid-column:6;grid-row:2 / span ' + L.total + '"><span>Lunch and Prayer Break</span></div>';
+    for (d = 0; d < 5; d++) {
+      var rs = L.start[d], n = L.rows[d];
+      h += '<div class="day" style="grid-column:1;grid-row:' + rs + ' / span ' + n + '">' + DAYS[d] + '</div>';
+      for (p = 1; p <= 6; p++) {
+        h += '<div class="slot' + (STRUCK_SLOTS[d + '-' + p] ? ' x' : '') + '" data-day="' + d + '" data-p="' + p + '" style="grid-column:' + COL[p] + ';grid-row:' + rs + ' / span ' + n + '"></div>';
+      }
+    }
+    items.forEach(function (c) {
+      var rs2 = L.start[c.day] + L.laneOf[c.id];
+      var label = c.name + (c.sub ? ' ' + c.sub : '') + ', ' + DAYS[c.day] + ' ' + timeRange(c) + (c.struck ? ', crossed out' : '');
+      h += '<div class="card f-' + c.fam + (c.struck ? ' struck' : '') + '" draggable="true" tabindex="0" role="button" aria-pressed="false" data-id="' + c.id + '" aria-label="' + esc(label) + '" style="grid-column:' + COL[c.start] + ' / span ' + c.span + ';grid-row:' + rs2 + '">' +
+        '<div class="top"><span class="tc">' + esc(c.teacher) + '</span><span class="rm">' + esc(c.room) + '</span></div>' +
+        '<div class="nm">' + esc(c.name) + '</div>' +
+        '<div class="sb">' + esc(c.sub) + '</div></div>';
+    });
+    grid.style.gridTemplateRows = 'auto repeat(' + L.total + ', minmax(104px, auto))';
+    grid.innerHTML = h;
+    apply();
+    if (focusId) {
+      var el = grid.querySelector('.card[data-id="' + focusId + '"]');
+      if (el && el.focus) { try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); } }
+      focusId = null;
+    }
+  }
+
+  function apply() {
+    var c = sel ? byId(sel) : null;
+    grid.classList.toggle('moving', !!c);
+    var cards = grid.querySelectorAll('.card');
+    for (var i = 0; i < cards.length; i++) {
+      var on = cards[i].getAttribute('data-id') === sel;
+      cards[i].classList.toggle('sel', on);
+      cards[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    var slots = grid.querySelectorAll('.slot');
+    for (var j = 0; j < slots.length; j++) {
+      var s = slots[j], d = +s.getAttribute('data-day'), p = +s.getAttribute('data-p');
+      var here = !!c && c.day === d && c.start === p;
+      var ok = !!c && !here && validStart(c, p);
+      s.classList.toggle('here', here);
+      s.classList.toggle('ok', ok);
+      s.classList.toggle('no', !!c && !here && !ok);
+      if (ok) {
+        s.setAttribute('tabindex', '0'); s.setAttribute('role', 'button');
+        s.setAttribute('aria-label', 'Move ' + c.name + ' to ' + DAYS[d] + ', period ' + p);
+      } else { s.removeAttribute('tabindex'); s.removeAttribute('role'); s.removeAttribute('aria-label'); }
+    }
+    hintEl.hidden = !!c; selInfo.hidden = !c; acts.hidden = !c;
+    if (c) {
+      siTitle.textContent = c.name + (c.sub ? ' (' + c.sub + ')' : '');
+      siMeta.textContent = DAYS[c.day] + ' ' + timeRange(c) + '  |  ' + teacherNames(c) + '  |  ' + c.room;
+      btnX.textContent = c.struck ? 'Restore' : 'Cross out';
+      btnBack.disabled = c.day === c.oDay && c.start === c.oStart;
+    } else { hintEl.textContent = hintText; }
+  }
+
+  function select(id) { sel = id; if (id) hintText = DEFAULT_HINT; apply(); }
+  function moveTo(d, p) {
+    var c = sel ? byId(sel) : null;
+    if (!c) return;
+    if (!validStart(c, p)) return;
+    pushHistory();
+    c.day = d; c.start = p;
+    hintText = 'Moved ' + c.name + (c.sub ? ' (' + c.sub + ')' : '') + ' to ' + DAYS[d] + ', ' + timeRange(c) + '.';
+    focusId = c.id; sel = null; save(); render();
+  }
+
+  grid.addEventListener('click', function (e) {
+    var slot = e.target.closest('.slot');
+    if (sel && slot && !slot.classList.contains('here')) {
+      var c = byId(sel);
+      var d = +slot.getAttribute('data-day'), p = +slot.getAttribute('data-p');
+      if (slot.classList.contains('ok')) { moveTo(d, p); }
+      else if (c) {
+        selInfo.hidden = true; acts.hidden = true; hintEl.hidden = false;
+        hintEl.textContent = 'A 2-period class cannot start in period ' + p + ' because it would cross the lunch and prayer break or run past period 6.';
+        setTimeout(function () { if (sel) { hintEl.hidden = true; selInfo.hidden = false; acts.hidden = false; } }, 2600);
+      }
+      return;
+    }
+    var card = e.target.closest('.card');
+    if (card) { var id = card.getAttribute('data-id'); select(sel === id ? null : id); }
+  });
+  grid.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { select(null); return; }
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var slot = e.target.closest ? e.target.closest('.slot.ok') : null;
+    if (slot) { e.preventDefault(); moveTo(+slot.getAttribute('data-day'), +slot.getAttribute('data-p')); return; }
+    var card = e.target.closest ? e.target.closest('.card') : null;
+    if (card) { e.preventDefault(); var id = card.getAttribute('data-id'); select(sel === id ? null : id); }
+  });
+
+  // Mouse drag and drop
+  grid.addEventListener('dragstart', function (e) {
+    var card = e.target.closest ? e.target.closest('.card') : null;
+    if (!card) return;
+    var id = card.getAttribute('data-id');
+    try { e.dataTransfer.setData('text/plain', id); e.dataTransfer.effectAllowed = 'move'; } catch (err) {}
+    setTimeout(function () { select(id); }, 0);
+  });
+  grid.addEventListener('dragover', function (e) {
+    var slot = e.target.closest ? e.target.closest('.slot.ok') : null;
+    if (slot) { e.preventDefault(); slot.classList.add('over'); }
+  });
+  grid.addEventListener('dragleave', function (e) {
+    var slot = e.target.closest ? e.target.closest('.slot') : null;
+    if (slot) slot.classList.remove('over');
+  });
+  grid.addEventListener('drop', function (e) {
+    var slot = e.target.closest ? e.target.closest('.slot.ok') : null;
+    if (slot) { e.preventDefault(); moveTo(+slot.getAttribute('data-day'), +slot.getAttribute('data-p')); }
+  });
+  document.addEventListener('dragend', function () { setTimeout(function () { if (sel) select(null); }, 0); });
+
+  document.getElementById('btnDone').addEventListener('click', function () { select(null); });
+  btnX.addEventListener('click', function () {
+    var c = sel ? byId(sel) : null; if (!c) return;
+    pushHistory(); c.struck = !c.struck; save(); render();
+  });
+  btnBack.addEventListener('click', function () {
+    var c = sel ? byId(sel) : null; if (!c) return;
+    pushHistory(); c.day = c.oDay; c.start = c.oStart;
+    hintText = c.name + (c.sub ? ' (' + c.sub + ')' : '') + ' is back in its original spot.';
+    focusId = c.id; sel = null; save(); render();
+  });
+  btnUndo.addEventListener('click', function () {
+    if (!history.length) return;
+    restore(history.pop()); btnUndo.disabled = !history.length;
+    sel = null; hintText = 'Last change undone.'; save(); render();
+  });
+  document.getElementById('reset').addEventListener('click', function () {
+    pushHistory();
+    items.forEach(function (c) { c.day = c.oDay; c.start = c.oStart; c.struck = c.oStruck; });
+    sel = null; hintText = 'Everything is back to the original routine. Undo brings your arrangement back.'; save(); render();
+  });
+
+  function toText() {
+    var out = ['BSc CSE 1st-Section 2 - Class Schedule'];
+    for (var d = 0; d < 5; d++) {
+      out.push('', DAYS[d]);
+      var cs = items.filter(function (c) { return c.day === d; }).sort(function (a, b) { return a.start - b.start || a.ord - b.ord; });
+      if (!cs.length) out.push('  (no classes)');
+      cs.forEach(function (c) {
+        out.push('  P' + c.start + (c.span > 1 ? '-P' + (c.start + c.span - 1) : '') + ' ' + timeRange(c) + '  ' + c.name + (c.sub ? ' [' + c.sub + ']' : '') + ' | ' + c.teacher + ' | ' + c.room + (c.struck ? ' (crossed out)' : ''));
+      });
+    }
+    return out.join('\n');
+  }
+  var copyBtn = document.getElementById('copy');
+  var fb = document.getElementById('fallback');
+  copyBtn.addEventListener('click', function () {
+    var text = toText();
+    function showFallback() { fb.hidden = false; fb.value = text; fb.focus(); fb.select(); }
+    function done() { copyBtn.textContent = 'Copied'; setTimeout(function () { copyBtn.textContent = 'Copy as text'; }, 1600); fb.hidden = true; }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, showFallback);
+      else showFallback();
+    } catch (e) { showFallback(); }
+  });
+
+  // Teachers legend, three columns like the original
+  var groups = [[0, 5], [5, 10], [10, 13]];
+  document.getElementById('tcols').innerHTML = groups.map(function (g) {
+    return '<ul>' + TEACHERS.slice(g[0], g[1]).map(function (t) {
+      return '<li><span class="code">' + esc(t[0]) + '</span><span>' + esc(t[1]) + '</span></li>';
+    }).join('') + '</ul>';
+  }).join('');
+
+  load();
+  render();
+})();
+</script>
+</body>
+</html>
